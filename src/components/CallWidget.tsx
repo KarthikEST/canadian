@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Phone, CheckCircle } from "lucide-react";
 
 type CallState = "idle" | "calling" | "success" | "error";
-type CallType = "Appointment" | "Follow up";
 
 interface CallWidgetProps {
   onCallInitiated?: (phoneNumber: string) => void;
@@ -13,7 +12,6 @@ interface CallWidgetProps {
 
 export function CallWidget({ onCallInitiated }: CallWidgetProps) {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [callType, setCallType] = useState<CallType>("Appointment");
   const [callState, setCallState] = useState<CallState>("idle");
   const [statusMessage, setStatusMessage] = useState<string>("");
   const [callDuration, setCallDuration] = useState<number>(0);
@@ -33,13 +31,14 @@ export function CallWidget({ onCallInitiated }: CallWidgetProps) {
     setCallDuration(0);
 
     try {
-      const response = await fetch("https://auric.haloocom.in/canadian1/make-call", {
+      const response = await fetch("https://hexaweb.haloocom.in/fakruddin/make-call", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          phoneNumber: number, // Make sure this includes country code like "+919876543210"
-          campaignId: callType,
-          listId: "canadian_campaign_1",
+          phoneNumber: number,
+          campaignId: "TestCampaign",
+          customer_name: "John Doe",
+          listId: "123",
         }),
       });
 
@@ -73,7 +72,6 @@ export function CallWidget({ onCallInitiated }: CallWidgetProps) {
 
   const handleReset = () => {
     setPhoneNumber("");
-    setCallType("Appointment");
     setCallState("idle");
     setStatusMessage("");
     setCallDuration(0);
@@ -101,30 +99,6 @@ export function CallWidget({ onCallInitiated }: CallWidgetProps) {
       <div className="bg-card/80 backdrop-blur-sm rounded-2xl p-4 shadow-card border border-border/50">
         {callState === "idle" ? (
           <div className="space-y-3">
-            {/* Call Type Selection */}
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => setCallType("Appointment")}
-                className={`flex-1 py-3 px-4 rounded-lg font-semibold text-sm transition-all ${callType === "Appointment"
-                    ? "bg-primary text-primary-foreground shadow-lg"
-                    : "bg-secondary text-muted-foreground hover:bg-muted border border-border"
-                  }`}
-              >
-                Appointment
-              </button>
-              <button
-                type="button"
-                onClick={() => setCallType("Follow up")}
-                className={`flex-1 py-3 px-4 rounded-lg font-semibold text-sm transition-all ${callType === "Follow up"
-                    ? "bg-primary text-primary-foreground shadow-lg"
-                    : "bg-secondary text-muted-foreground hover:bg-muted border border-border"
-                  }`}
-              >
-                Follow up
-              </button>
-            </div>
-
             {/* Phone Input Row */}
             <div className="flex items-stretch">
               <PhoneInput
