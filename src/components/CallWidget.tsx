@@ -36,9 +36,12 @@ export function CallWidget({ onCallInitiated }: CallWidgetProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           phoneNumber: number,
-          campaignId: "TestCampaign",
-          customer_name: "John Doe",
-          listId: "123",
+          agent_name: "Arjun",
+          bank_name: "HDFC Bank",
+          customer_name: "Ramesh Kumar",
+          salutation: "Ramesh ji",
+          due_amount: "1000",
+          months_due: "3",
         }),
       });
 
@@ -137,10 +140,13 @@ export function CallWidget({ onCallInitiated }: CallWidgetProps) {
 
         {statusMessage && callState === "idle" && (
           <p
-            className={`text-sm text-center mt-3 ${statusMessage.includes("Error") || statusMessage.includes("Invalid") || statusMessage.includes("valid")
+            className={`text-sm text-center mt-3 ${
+              statusMessage.includes("Error") ||
+              statusMessage.includes("Invalid") ||
+              statusMessage.includes("valid")
                 ? "text-destructive"
                 : "text-primary"
-              }`}
+            }`}
           >
             {statusMessage}
           </p>
